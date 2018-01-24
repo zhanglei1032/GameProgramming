@@ -29,6 +29,7 @@
 
     var leftDown = false
     var rightDown = false
+    var speed = 5
 
     window.addEventListener('keydown', function (event) {
         var k = event.key
@@ -52,9 +53,9 @@
 
     setInterval(function(){
         if (leftDown) {
-            x -= 10
+            x -= speed
         } else if (rightDown) {
-            x += 10
+            x += speed
         }
         context.clearRect(0, 0, canvas.width, canvas.height)
         context.drawImage(img, x, y)
