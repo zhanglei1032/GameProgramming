@@ -37,7 +37,14 @@
         }
         o.move = function(){
             if (o.fired) {
-
+                if (o.x < 0 || o.x > 400) {
+                    o.speedX = -o.speedX
+                }
+                if (o.y < 0 || o.y > 300) {
+                    o.speedY = -o.speedY
+                }
+                o.x += o.speedX
+                o.y += o.speedY
             }
         }
         return o
@@ -57,6 +64,14 @@
         }
         o.moveRight = function(){
             o.x += o.speed
+        }
+        o.collide = function(guaImage){
+            if (guaImage.y + guaImage.image.height > o.y) {
+                if (guaImage.x > o.x && guaImage.x < o.x + o.image.width) {
+                    return true
+                }
+            }
+            return false
         }
         return o
     }
@@ -135,6 +150,9 @@
         //
         game.update = function(){
             ball.move()
+            if (paddle.collide(ball)) {
+                ball.speedY *= -1
+            }
         }
 
         game.draw = function(){
