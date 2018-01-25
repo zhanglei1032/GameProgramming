@@ -51,6 +51,32 @@
     }
 
 
+    var Block = function () {
+        var image = imageFromPath('block.png')
+        var o = {
+            image: image,
+            x: 100,
+            y: 50,
+            w: 40,
+            h: 20,
+            alive: true,
+        }
+        o.kill = function(){
+            o.alive = false
+        }
+        o.collide = function(guaImage){
+            if (guaImage.y + guaImage.image.height > o.y) {
+                if (guaImage.x > o.x && guaImage.x < o.x + o.image.width) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        return o
+    }
+
+
     var Paddle = function () {
         var image = imageFromPath('paddle.png')
         var o = {
@@ -128,6 +154,7 @@
 
         var paddle = Paddle()
         var ball = Ball()
+        var block = Block()
 
         game.registerAction('a', function () {
             paddle.moveLeft()
@@ -158,6 +185,7 @@
         game.draw = function(){
             game.drawImage(paddle)
             game.drawImage(ball)
+            game.drawImage(block)
         }
 
     }
