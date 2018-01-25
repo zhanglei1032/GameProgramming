@@ -45,10 +45,12 @@
             actions: {},
             keydowns: {},
         }
-        var canvas = document.querySelector('#id-canvas')
-        var context = canvas.getContext('2d')
-        g.canvas = canvas
-        g.context = context
+        g.canvas = document.querySelector('#id-canvas')
+        g.context = g.canvas.getContext('2d')
+
+        g.drawImage = function (guaImage) {
+            g.context.drawImage(guaImage.image, guaImage.x, guaImage.y)
+        }
 
         //events
         window.addEventListener('keydown', function (event) {
@@ -75,7 +77,7 @@
             //update
             //g.update()
             //clear
-            context.clearRect(0, 0, canvas.width, canvas.height)
+            g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
             //draw
             g.draw()
         }, 1000/30)
@@ -104,9 +106,8 @@
         //     registerAction:ƒ (key, callback)
         //     actions:a:ƒ (),d:ƒ ()
         // }
-
         game.draw = function(){
-            game.context.drawImage(paddle.image, paddle.x, paddle.y)
+            game.drawImage(paddle)
         }
 
     }
