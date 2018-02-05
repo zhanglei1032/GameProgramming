@@ -190,8 +190,10 @@
         game.registerAction('f', function () {
             ball.fire()
         })
-        game.registerAction('p', function () {
-            paused = !paused
+        window.addEventListener('keydown', function(event){
+            if (event.key == 'p') {
+                paused = !paused
+            }
         })
 
         // game:{
