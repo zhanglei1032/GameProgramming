@@ -8,166 +8,20 @@
             border: 1px black solid;
         }
     </style>
+    <script type="text/javascript" src="guagame.js"></script>
+    <script type="text/javascript" src="ball.js"></script>
+    <script type="text/javascript" src="paddle.js"></script>
+    <script type="text/javascript" src="block.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
 </head>
 <body>
 <canvas id="id-canvas" width="400" height="300"></canvas>
 <script type="text/javascript">
-    var log = console.log.bind(console)
 
-
-    var imageFromPath = function(path){
-        var img = new Image()
-        img.src = path
-        return img
-    }
-
-
-    var rectIntersects = function(a, b){
-        if (a.y < b.y && a.y + a.image.height > b.y) {
-            if (a.x < b.x && a.x + a.image.width > b.x ) {
-                return true
-            }
-        }
-        return false
-    }
-
-
-    var Ball = function () {
-        var image = imageFromPath('ball.png')
-        var o = {
-            image: image,
-            x: 100,
-            y: 200,
-            speedX: 10,
-            speedY: 10,
-            fired: false,
-        }
-        o.fire = function(){
-            o.fired = true
-        }
-        o.move = function(){
-            if (o.fired) {
-                if (o.x < 0 || o.x > 400) {
-                    o.speedX = -o.speedX
-                }
-                if (o.y < 0 || o.y > 300) {
-                    o.speedY = -o.speedY
-                }
-                o.x += o.speedX
-                o.y += o.speedY
-            }
-        }
-        o.反弹 = function(){
-            o.speedY *= -1
-        }
-        return o
-    }
-
-
-    var Block = function () {
-        var image = imageFromPath('block.png')
-        var o = {
-            image: image,
-            x: 100,
-            y: 50,
-            w: 40,
-            h: 20,
-            alive: true,
-        }
-        o.kill = function(){
-            o.alive = false
-        }
-        o.collide = function(b){
-            return o.alive && (rectIntersects(o, b) || rectIntersects(b, o))
-        }
-
-        return o
-    }
-
-
-    var Paddle = function () {
-        var image = imageFromPath('paddle.png')
-        var o = {
-            image: image,
-            x: 100,
-            y: 200,
-            speed: 5,
-        }
-        o.move = function (x) {
-            if (x < 0) {
-                x = 0
-            }
-            if (x > 400 - o.image.width) {
-                x = 400 - o.image.width
-            }
-            o.x = x
-        }
-        o.moveLeft = function(){
-            o.move(o.x - o.speed)
-        }
-        o.moveRight = function(){
-            o.move(o.x + o.speed)
-        }
-        o.collide = function(guaImage){
-            if (guaImage.y + guaImage.image.height > o.y) {
-                if (guaImage.x > o.x && guaImage.x < o.x + o.image.width) {
-                    return true
-                }
-            }
-            return false
-        }
-        return o
-    }
-
-
-    var GuaGame = function(fps){
-        var g = {
-            actions: {},
-            keydowns: {},
-        }
-        g.canvas = document.querySelector('#id-canvas')
-        g.context = g.canvas.getContext('2d')
-
-        g.drawImage = function (guaImage) {
-            g.context.drawImage(guaImage.image, guaImage.x, guaImage.y)
-        }
-
-        //events
-        window.addEventListener('keydown', function (event) {
-            g.keydowns[event.key] = true
-        })
-        window.addEventListener('keyup', function (event) {
-            g.keydowns[event.key] = false
-        })
-
-        g.registerAction = function(key, callback){
-            g.actions[key] = callback
-        }
-
-        //timer
-        setInterval(function () {
-            //Object.keys 返回一个对象所有属性组成的数组
-            var keys = Object.keys(g.actions)
-            for (var i = 0; i < keys.length; i++) {
-                var key = keys[i]
-                if (g.keydowns[key]) {
-                    g.actions[key]()
-                }
-            }
-            //update
-            g.update()
-            //clear
-            g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
-            //draw
-            g.draw()
-        }, 1000/fps)
-
-        return g
-    }
 
 
     var __main = function () {
-        var game = GuaGame()
+        var game = GuaGame(30)
 
         var paddle = Paddle()
         var ball = Ball()
