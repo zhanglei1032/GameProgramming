@@ -13,23 +13,28 @@
     <script type="text/javascript" src="paddle.js"></script>
     <script type="text/javascript" src="block.js"></script>
     <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="levels.js"></script>
 </head>
 <body>
 <canvas id="id-canvas" width="400" height="300"></canvas>
 <script type="text/javascript">
+
+    var loadLevel = function (n) {
+        var n = n - 1
+        var level = levels[n]
+        for (var i = 0; i < level.length; i++) {
+            var p = level[i]
+            var b = Block(p)
+            blocks.push(b)
+        }
+        return blocks
+    }
+
     var __main = function () {
         var game = GuaGame(30)
 
         var paddle = Paddle()
         var ball = Ball()
-
-        var blocks = []
-        for (var i = 0; i < 3; i++) {
-            var b = Block()
-            b.x = i * 100
-            b.y = 50
-            blocks.push(b)
-        }
 
         var paused = false
         game.registerAction('a', function () {
