@@ -43,14 +43,15 @@
             var k = event.key
             if (k == 'p') {
                 //暂停功能
-                paused = !paused
+                window.paused = !window.paused
             } else if ('1234567'.includes(k)) {
                 //载入关卡功能
                 blocks = loadLevel(Number(k))
             }
         })
         //控制速度
-        document.querySelector('#id-input-speed').addEventListener('input', function(){
+        var slide = document.querySelector('#id-input-speed')
+        slide.addEventListener('input', function(event){
             var input = event.target
             window.fps = Number(input.value)
         })
@@ -86,7 +87,7 @@
         // }
         //
         game.update = function(){
-            if (paused) {
+            if (window.paused) {
                 return
             }
             ball.move()

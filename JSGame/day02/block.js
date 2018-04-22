@@ -13,9 +13,10 @@ var Block = function (position) {
     }
     o.kill = function(){
         o.lifes--
-        if (o.lives < 1) {
+        log(o.lifes)
+        if (o.lifes < 1) {
             o.alive = false
-        } 
+        }
     }
     o.collide = function(b){
         return o.alive && (rectIntersects(o, b) || rectIntersects(b, o))
