@@ -31,7 +31,27 @@
         return blocks
     }
 
+
+    var enableDebugMode = function(enable){
+        if (!enable) {
+            return
+        }
+        window.addEventListener('keydown', function(event){
+            var k = event.key
+            if (k == 'p') {
+                //暂停功能
+                paused = !paused
+            } else if ('1234567'.includes(k)) {
+                //载入关卡功能
+                blocks = loadLevel(Number(k))
+            }
+        })
+    }
+
+
     var __main = function () {
+        enableDebugMode(true)
+
         var game = GuaGame(30)
 
         var paddle = Paddle()
@@ -46,14 +66,6 @@
         })
         game.registerAction('f', function () {
             ball.fire()
-        })
-        window.addEventListener('keydown', function(event){
-            var k = event.key
-            if (k == 'p') {
-                paused = !paused
-            } else if ('1234567'.includes(k)) {
-                blocks = loadLevel(Number(k))
-            }
         })
 
         // game:{
