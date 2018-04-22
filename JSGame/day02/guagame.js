@@ -22,8 +22,8 @@ var GuaGame = function(fps){
         g.actions[key] = callback
     }
 
-    //timer
-    setInterval(function () {
+    window.fps = 30
+    var runloop = function () {
         //Object.keys 返回一个对象所有属性组成的数组
         var keys = Object.keys(g.actions)
         for (var i = 0; i < keys.length; i++) {
@@ -38,7 +38,16 @@ var GuaGame = function(fps){
         g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
         //draw
         g.draw()
-    }, 1000/fps)
+
+        setTimeout(function () {
+            runloop()
+        }, 1000/window.fps)
+    }
+
+    //timer
+    setTimeout(function () {
+        runloop()
+    }, 1000/window.fps)
 
     return g
 }
