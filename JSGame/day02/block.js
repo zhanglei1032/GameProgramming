@@ -9,9 +9,13 @@ var Block = function (position) {
         w: 40,
         h: 20,
         alive: true,
+        lifes: p[2] || 1, //lifes为p[2]元素，如果没有此元素，则值为1
     }
     o.kill = function(){
-        o.alive = false
+        o.lifes--
+        if (o.lives < 1) {
+            o.alive = false
+        } 
     }
     o.collide = function(b){
         return o.alive && (rectIntersects(o, b) || rectIntersects(b, o))
