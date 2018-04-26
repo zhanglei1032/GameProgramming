@@ -1,3 +1,11 @@
+var e = sel => document.querySelector(sel)
+
+
+var log2Page =  function (s) {
+    e('#id-text-log').value += '\n' + s
+}
+
+
 var log = console.log.bind(console)
 
 
